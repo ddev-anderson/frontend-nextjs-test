@@ -12,9 +12,15 @@
 import styles from "@/styles/formulario.module.css";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
+import { isValidEmail } from "@/utils/email";
 
 export default function Form() {
-  const { register, handleSubmit } = useForm();
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+    reset,
+  } = useForm();
   const [errorMessage, setErrorMessage] = useState("");
 
   const onSubmit = async (data: any) => {
@@ -27,13 +33,15 @@ export default function Form() {
         body: JSON.stringify(data),
       });
 
-      if (response.ok) {
+      if (!response.ok) {
         setErrorMessage("Erro ao adicionar o usuário");
+      } else {
+        alert("Usuário adicionado com sucesso");
+        reset();
       }
-
-      console.log("Usuário adicionado com sucesso");
     } catch (error) {
-      throw new Error("Erro ao adicionar usuário:");
+      console.error("Erro ao adicionar usuário:", error);
+      setErrorMessage("Erro ao adicionar usuário");
     }
   };
 
@@ -46,11 +54,22 @@ export default function Form() {
             placeholder="Name"
             {...register("name", { required: true })}
           />
+          {errors.name && <p className={styles.error}>Nome é obrigatório</p>}
+
           <input
             type="email"
             placeholder="E-mail"
-            {...register("email", { required: true })}
+            {...register("email", {
+              required: true,
+              validate: isValidEmail,
+            })}
           />
+          {errors.email?.type === "required" && (
+            <p className={styles.error}>E-mail é obrigatório</p>
+          )}
+          {errors.email?.type === "validate" && (
+            <p className={styles.error}>E-mail inválido</p>
+          )}
 
           <button type="submit">Enviar</button>
         </form>

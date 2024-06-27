@@ -24,7 +24,7 @@ export default ApiMethod("GET")(
   async (req: NextApiRequest, res: NextApiResponse) => {
     const users: Array<IUser> = [];
 
-    for (const _ of loop(2)) {
+    for (const _ of loop(5)) {
       users.push({
         id: faker.string.uuid(),
         name: faker.location.city(),

@@ -7,7 +7,6 @@
  */
 
 import { useEffect, useState } from "react";
-
 import styles from "@/styles/lista.module.css";
 import { IUser } from "@/types/user";
 
@@ -37,11 +36,13 @@ export default function Lista() {
       <div className={styles.content}>
         <h2>Lista de usuários</h2>
 
-        <div data-list-container>
+        <div className={styles["data-list-container"]}>
           {users.map((u) => {
             return (
-              <div data-list-item>
-                {u.id} - {u.name} - {u.email}
+              <div key={u.id} data-list-item>
+                <div> ID: {u.id} </div>
+                <div> Nome: {u.name} </div>
+                <div> E-mail: {u.email}</div>
               </div>
             );
           })}
