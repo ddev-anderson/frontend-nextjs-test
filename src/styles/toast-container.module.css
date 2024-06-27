@@ -1,0 +1,10 @@
+.toast-container {
+  position: fixed;
+  top: 20px;
+  right: 20px;
+  z-index: 1000;
+  background-color: rgba(82, 72, 72, 0.8);
+  padding: 20px;
+  border-radius: 8px;
+  color: white;
+}
